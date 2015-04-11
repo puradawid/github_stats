@@ -13,7 +13,7 @@ gemspec
 # To use a debugger
 #gem 'byebug', group: [:development, :test]
 
-gem 'github-api'
+gem 'github_api'
 
 group :development do
   gem 'byebug'
