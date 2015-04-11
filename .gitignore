@@ -34,5 +34,10 @@ build/
 # unless supporting rvm < 1.11.0 or doing something fancy, ignore this:
 .rvmrc
 
+# dummy rails app ignores
+/test/dummy/log/*.log
+/test/dummy/tmp
+
+
 ## IDE specify folders
 .idea
