@@ -5,13 +5,14 @@ module GithubStats
       if check_github_url value
         url = URI.parse(value)
         repo_data = github_data value
+        byebug
         begin
-          GitHub.repos(user: repo_data[:username], repo: repo_data[:repo]).commits.caller_locations
-        rescue Github::Error::NotFound
-          return false
+          Github.repos(user: repo_data[:username], repo: repo_data[:repo]).commits.all
+        rescue Exception => e
+          record.records[attribute] << error_message
         end
       else
-        false
+        record.records[attribute] << error_message
       end
     end
 
@@ -21,6 +22,10 @@ module GithubStats
     end
 
     private
+
+    def error_message
+      "It is not existing github record."
+    end
 
     def allowed_schemas
       ["http", "https", ""]

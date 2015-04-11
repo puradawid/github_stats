@@ -1,5 +1,6 @@
 require 'test_helper'
 require 'mocha/mini_test'
+require 'byebug'
 
 class GithubStatsValidatorTest < ActiveSupport::TestCase
   def validator
@@ -10,8 +11,13 @@ class GithubStatsValidatorTest < ActiveSupport::TestCase
   # testing check_github_url helping method
 
   def generate_fake_model url, attr_name
-    mock.stubs(:errors).returns([])
-    mock.stubs(attr_name).returns(url)
+    record = mock('model')
+    record.stubs(:errors).returns([])
+    record.errors.stubs('[]').returns({})
+    record.errors[].stubs('<<')
+    record.stubs(:records).returns([])
+    record.records.stubs('[]').returns([])
+    return record
   end
 
   test "validate wrong url to github" do
@@ -29,19 +35,24 @@ class GithubStatsValidatorTest < ActiveSupport::TestCase
   # testing real validation
 
   test "validate right but unexisting github repo" do
-    assert false == validate_github_url("https://github.com/puradawid/github_stats_notexisting")
+    validated_record = validate_github_url("https://github.com/puradawid/github_stats_notexisting") do |model, attr_name|
+      model.errors[attr_name].expects '<<'
+    end
   end
 
   test "validate right existing github repo" do
-    assert true == validate_github_url("https://github.com/puradawid/github_stats")
+    validated_record = validate_github_url("https://github.com/puradawid/github_stats") {}
   end
 
   private
   def validate_github_url url
+    model = generate_fake_model url, :github_url
     validator.validate_each(
-        generate_fake_model(url, :github_url),
+        model,
         :github_url,
         url)
+    yield model, :github_url
+    model
   end
 
 end
