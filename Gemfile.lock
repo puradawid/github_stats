@@ -184,4 +184,5 @@ DEPENDENCIES
   guard
   guard-minitest
   mocha
+  rake
   sqlite3
