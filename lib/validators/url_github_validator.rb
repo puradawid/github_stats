@@ -5,20 +5,23 @@ module GithubStats
       if check_github_url value
         url = URI.parse(value)
         repo_data = github_data value
-        byebug
         begin
           Github.repos(user: repo_data[:username], repo: repo_data[:repo]).commits.all
         rescue Exception => e
-          record.records[attribute] << error_message
+          record.errors[attribute] << error_message
         end
       else
-        record.records[attribute] << error_message
+        record.errors[attribute] << error_message
       end
     end
 
     def check_github_url(url)
-      parsed_url = URI.parse(url)
-      parsed_url.scheme.in? allowed_schemas and parsed_url.hostname == allowed_hostname
+      begin
+        parsed_url = URI.parse(url)
+        parsed_url.scheme.in? allowed_schemas and parsed_url.hostname == allowed_hostname
+      rescue URI::InvalidURIError
+        return false
+      end
     end
 
     private

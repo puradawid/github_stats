@@ -12,11 +12,10 @@ class GithubStatsValidatorTest < ActiveSupport::TestCase
 
   def generate_fake_model url, attr_name
     record = mock('model')
-    record.stubs(:errors).returns([])
+    record.stubs('errors').returns([])
     record.errors.stubs('[]').returns({})
-    record.errors[].stubs('<<')
-    record.stubs(:records).returns([])
-    record.records.stubs('[]').returns([])
+    record.stubs('errors[]').returns []
+    record.errors[].stubs('<<').returns []
     return record
   end
 
@@ -36,22 +35,42 @@ class GithubStatsValidatorTest < ActiveSupport::TestCase
 
   test "validate right but unexisting github repo" do
     validated_record = validate_github_url("https://github.com/puradawid/github_stats_notexisting") do |model, attr_name|
-      model.errors[attr_name].expects '<<'
+      model.errors.[].expects('<<').once
     end
   end
 
   test "validate right existing github repo" do
-    validated_record = validate_github_url("https://github.com/puradawid/github_stats") {}
+    validated_record = validate_github_url("https://github.com/puradawid/github_stats") do |model, attr_name|
+      model.expects(:errors).never
+    end
+  end
+
+  test "validate wrong url" do
+    validated_record = validate_github_url("this is not a url at all") do |model, attr_name|
+      model.expects(:errors).never
+    end
+  end
+
+  test "validate url to wrong site" do
+    validated_record = validate_github_url("http://githap.com/puradawid/github_stats") do |model, attr_name|
+      model.expects(:errors).never
+    end
+  end
+
+  test "right url but without schema" do
+    validated_record = validate_github_url("github.com/puradawid/github_stats") do |model, attr_name|
+      model.expects(:errors).never
+    end
   end
 
   private
   def validate_github_url url
     model = generate_fake_model url, :github_url
+    yield model, :github_url
     validator.validate_each(
         model,
         :github_url,
         url)
-    yield model, :github_url
     model
   end
 
