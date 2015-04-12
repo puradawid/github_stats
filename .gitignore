@@ -12,6 +12,7 @@
 ## Specific to RubyMotion:
 .dat*
 .repl_history
+*.sqlite
 build/
 
 ## Documentation cache and generated files:
