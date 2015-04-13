@@ -14,8 +14,8 @@ class GithubStatsValidatorTest < ActiveSupport::TestCase
     record = mock('model')
     record.stubs('errors').returns([])
     record.errors.stubs('[]').returns({})
-    record.stubs('errors[]').returns []
-    record.errors[].stubs('<<').returns []
+    #record.stubs('errors[]').returns []
+    #record.errors[].stubs('<<').returns []
     return record
   end
 
@@ -41,25 +41,25 @@ class GithubStatsValidatorTest < ActiveSupport::TestCase
 
   test "validate right existing github repo" do
     validated_record = validate_github_url("https://github.com/puradawid/github_stats") do |model, attr_name|
-      model.expects(:errors).never
+      model.errors.[].expects('<<').never
     end
   end
 
   test "validate wrong url" do
     validated_record = validate_github_url("this is not a url at all") do |model, attr_name|
-      model.expects(:errors).never
+      model.errors.[].expects('<<').once
     end
   end
 
   test "validate url to wrong site" do
     validated_record = validate_github_url("http://githap.com/puradawid/github_stats") do |model, attr_name|
-      model.expects(:errors).never
+      model.errors[].expects('<<').once
     end
   end
 
   test "right url but without schema" do
     validated_record = validate_github_url("github.com/puradawid/github_stats") do |model, attr_name|
-      model.expects(:errors).never
+      model.errors[].expects('<<').once
     end
   end
 

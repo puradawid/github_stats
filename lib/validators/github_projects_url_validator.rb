@@ -6,6 +6,7 @@ class GithubProjectsUrlValidator < ActiveModel::EachValidator
 	begin
           Github.repos(user: repo_data[:username], repo: repo_data[:repo]).commits.all
         rescue Exception => e
+	  p e
           record.errors[attribute] << error_message
         end
       else
