@@ -1,5 +1,5 @@
 
-require 'validators/url_github_validator'
+require 'validators/github_projects_url_validator'
 require 'concerns/github_repository'
 require 'parser'
 

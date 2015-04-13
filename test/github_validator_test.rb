@@ -5,7 +5,7 @@ require 'byebug'
 class GithubStatsValidatorTest < ActiveSupport::TestCase
   def validator
     #instance a validator using regular constructor
-    @validator ||= GithubStats::GithubProjectsUrlValidator.new({attributes: {something: "irrelevant"}})
+    @validator ||= GithubProjectsUrlValidator.new({attributes: {something: "irrelevant"}})
   end
 
   # testing check_github_url helping method

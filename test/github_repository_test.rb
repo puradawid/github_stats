@@ -14,8 +14,7 @@ class GithubRepositoryTest < ActiveSupport::TestCase
     assert_equal "http://github.com/puradawid/github_stats", project.github_url
   end
 
-
-  test "check recent activity, by sending no error" do
+  test "check last commit date by sending no error" do
     project = ClassProject.new 
     project.github_url = "https://github.com/puradawid/github_stats"
     assert_kind_of String, project.last_commit_date

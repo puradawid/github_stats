@@ -1,9 +1,8 @@
-module GithubStats
-  class GithubProjectsUrlValidator < ActiveModel::EachValidator
+class GithubProjectsUrlValidator < ActiveModel::EachValidator
 
     def validate_each(record, attribute, value)
       if check_github_url value
-        repo_data = Parser.parse value
+        repo_data = GithubStats::Parser.parse value
 	begin
           Github.repos(user: repo_data[:username], repo: repo_data[:repo]).commits.all
         rescue Exception => e
@@ -36,6 +35,4 @@ module GithubStats
     def allowed_hostname
       "github.com"
     end
-
-  end
 end
