@@ -39,6 +39,6 @@ build/
 *.log
 /test/dummy/tmp
 
-
 ## IDE specify folders
 .idea
+*.swp

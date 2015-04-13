@@ -1,10 +1,9 @@
 module GithubStats
   module GithubRepository
-    extend ActiveSupport::Concern
-
-    included do
+    def self.included(base)
+      base.extend(ClassMethods)
     end
-
+    
     module ClassMethods
       def has_github_repo options = {}
         cattr_accessor :github_url_field
@@ -15,13 +14,21 @@ module GithubStats
     end
 
     module LocalInstanceMethods
-      extend ActiveSupport::Concern
-      attr_accessor :github_url
-      included do
-        validates :github_url, presence:true
+      def last_commit_date
+	commits = repo(Parser.parse(github_url_address)).commits 
+        commits.list[0].commit.author.date
+      end
+
+      private 
+      def github_url_address
+        send(self.class.github_url_field)
+      end
+
+      def repo data
+        Github.repos(user: data[:username], repo: data[:repo])
       end
     end
   end
 end
 
-ActiveRecord::Base.send :include, GithubStats::GithubRepository
+Object.send :include, GithubStats::GithubRepository

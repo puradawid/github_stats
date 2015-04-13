@@ -3,9 +3,8 @@ module GithubStats
 
     def validate_each(record, attribute, value)
       if check_github_url value
-        url = URI.parse(value)
-        repo_data = github_data value
-        begin
+        repo_data = Parser.parse value
+	begin
           Github.repos(user: repo_data[:username], repo: repo_data[:repo]).commits.all
         rescue Exception => e
           record.errors[attribute] << error_message
@@ -36,11 +35,6 @@ module GithubStats
 
     def allowed_hostname
       "github.com"
-    end
-
-    def github_data url
-      path = URI.parse(url).path.split '/'
-      {username: path[1], repo: path[2]}
     end
 
   end
