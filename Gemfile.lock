@@ -2,6 +2,7 @@ PATH
   remote: .
   specs:
     github_stats (0.0.1)
+      github_api
       rails (~> 4.1.8)
 
 GEM
