@@ -9,15 +9,15 @@ Gem::Specification.new do |s|
   s.version     = GithubStats::VERSION
   s.authors     = ["Pura Dawid"]
   s.email       = ["puradawid@gmail.com"]
-  s.homepage    = "TODO"
-  s.summary     = "TODO: Summary of GithubStats."
-  s.description = "TODO: Description of GithubStats."
+  s.homepage    = "https://github.com/puradawid/github_stats"
+  s.summary     = "Project repository model wrapper and statistic fetcher."
+  s.description = ""
   s.license     = "MIT"
 
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.rdoc"]
   s.test_files = Dir["test/**/*"]
 
-  s.add_dependency "rails", "~> 4.2.0"
+  s.add_dependency "rails", "~> 4.1.8"
 
   s.add_development_dependency "sqlite3"
 end
