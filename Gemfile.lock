@@ -2,7 +2,7 @@ PATH
   remote: .
   specs:
     github_stats (0.0.1)
-      github_api
+      github_api (= 0.12.3)
       rails (~> 4.1.8)
 
 GEM
@@ -152,7 +152,6 @@ PLATFORMS
 
 DEPENDENCIES
   byebug
-  github_api
   github_stats!
   guard
   guard-minitest
