@@ -26,7 +26,7 @@ class GithubProjectsUrlValidator < ActiveModel::EachValidator
     private
 
     def error_message
-      "It is not existing github record."
+      "It is not existing github repository."
     end
 
     def allowed_schemas
