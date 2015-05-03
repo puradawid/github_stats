@@ -14,7 +14,9 @@ module GithubStats
     end
 
     module LocalInstanceMethods
+      
       def last_commit_date
+	return "" if empty?
 	commits = repo(Parser.parse(github_url_address)).commits 
         commits.list[0].commit.author.date
       end
@@ -22,6 +24,10 @@ module GithubStats
       private 
       def github_url_address
         send(self.class.github_url_field)
+      end
+
+      def empty?
+        github_url_address.empty?
       end
 
       def repo data

@@ -1,11 +1,12 @@
 class GithubProjectsUrlValidator < ActiveModel::EachValidator
 
     def validate_each(record, attribute, value)
+      return if value.empty? and not opts[:presence]
       if check_github_url value
         repo_data = GithubStats::Parser.parse value
 	begin
           Github.repos(user: repo_data[:username], repo: repo_data[:repo]).commits.all
-        rescue Exception => e
+        rescue Github::Error::NotFound => e
 	  p e
           record.errors[attribute] << error_message
         end
@@ -24,6 +25,15 @@ class GithubProjectsUrlValidator < ActiveModel::EachValidator
     end
 
     private
+
+    def opts
+       presence = if options.has_key? :presence 
+                   options[:presence]
+		  else 
+                    true
+                  end
+       return {presence: presence}
+    end
 
     def error_message
       "It is not existing github repository."
