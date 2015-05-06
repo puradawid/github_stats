@@ -31,8 +31,6 @@ class GithubStatsValidatorTest < ActiveSupport::TestCase
     record = mock('model')
     record.stubs('errors').returns([])
     record.errors.stubs('[]').returns({})
-    #record.stubs('errors[]').returns []
-    #record.errors[].stubs('<<').returns []
     return record
   end
 
@@ -51,14 +49,12 @@ class GithubStatsValidatorTest < ActiveSupport::TestCase
   # testing real validation
 
   test "validate right but unexisting github repo" do
-    Github.repos.commits.stubs(:all).throws(Github::Error::NotFound.new({}))
     validated_record = validate_github_url("https://github.com/puradawid/github_stats_notexisting") do |model, attr_name|
       model.errors.[].expects('<<').once
     end
   end
 
   test "validate right existing github repo" do
-    Github.repos.commits.stubs(:all)
     validated_record = validate_github_url("https://github.com/puradawid/github_stats") do |model, attr_name|
       model.errors.[].expects('<<').never
     end

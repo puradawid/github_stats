@@ -28,7 +28,7 @@ class GithubProjectsUrlValidator < ActiveModel::EachValidator
     def opts
        presence = if options.has_key? :presence 
                    options[:presence]
-		  else 
+		              else 
                     true
                   end
        return {presence: presence}
