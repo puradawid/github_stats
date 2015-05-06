@@ -3,6 +3,23 @@ require 'mocha/mini_test'
 require 'byebug'
 
 class GithubStatsValidatorTest < ActiveSupport::TestCase
+  #dummy stub for Github source
+  class GithubStub
+    def repos(*opts)
+      repo = opts[0]
+      raise Github::Error::NotFound.new({}) unless repo[:user] == "puradawid" and repo[:repo] == "github_stats"
+      self
+    end
+
+    def commits()
+      self
+    end
+
+    def all()
+      self 
+    end
+  end
+	
   def validator
     #instance a validator using regular constructor
     @validator ||= GithubProjectsUrlValidator.new({presence: false, attributes: {a: false}})
@@ -34,12 +51,14 @@ class GithubStatsValidatorTest < ActiveSupport::TestCase
   # testing real validation
 
   test "validate right but unexisting github repo" do
+    Github.repos.commits.stubs(:all).throws(Github::Error::NotFound.new({}))
     validated_record = validate_github_url("https://github.com/puradawid/github_stats_notexisting") do |model, attr_name|
       model.errors.[].expects('<<').once
     end
   end
 
   test "validate right existing github repo" do
+    Github.repos.commits.stubs(:all)
     validated_record = validate_github_url("https://github.com/puradawid/github_stats") do |model, attr_name|
       model.errors.[].expects('<<').never
     end
@@ -77,7 +96,8 @@ class GithubStatsValidatorTest < ActiveSupport::TestCase
     validator.validate_each(
         model,
         :github_url,
-        url)
+        url,
+        github_source=GithubStub.new)
     model
   end
 

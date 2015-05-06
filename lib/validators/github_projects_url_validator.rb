@@ -1,13 +1,12 @@
 class GithubProjectsUrlValidator < ActiveModel::EachValidator
 
-    def validate_each(record, attribute, value)
+    def validate_each(record, attribute, value, github_source=Github)
       return if value.empty? and not opts[:presence]
       if check_github_url value
         repo_data = GithubStats::Parser.parse value
 	begin
-          Github.repos(user: repo_data[:username], repo: repo_data[:repo]).commits.all
+          github_source.repos(user: repo_data[:username], repo: repo_data[:repo]).commits.all
         rescue Github::Error::NotFound => e
-	  p e
           record.errors[attribute] << error_message
         end
       else
