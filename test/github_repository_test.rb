@@ -1,6 +1,10 @@
 require 'test_helper'
+require 'stub/github_stub.rb'
 
 class GithubRepositoryTest < ActiveSupport::TestCase
+
+  ClassProject.github_source = GithubStub::GithubStub.new
+  Project.github_source = GithubStub::GithubStub.new
 
   test "fetch github url" do
     project = Project.new

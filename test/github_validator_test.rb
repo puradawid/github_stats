@@ -1,25 +1,9 @@
 require 'test_helper'
 require 'mocha/mini_test'
 require 'byebug'
+require 'stub/github_stub.rb'
 
 class GithubStatsValidatorTest < ActiveSupport::TestCase
-  #dummy stub for Github source
-  class GithubStub
-    def repos(*opts)
-      repo = opts[0]
-      raise Github::Error::NotFound.new({}) unless repo[:user] == "puradawid" and repo[:repo] == "github_stats"
-      self
-    end
-
-    def commits()
-      self
-    end
-
-    def all()
-      self 
-    end
-  end
-	
   def validator
     #instance a validator using regular constructor
     @validator ||= GithubProjectsUrlValidator.new({presence: false, attributes: {a: false}})
@@ -93,7 +77,7 @@ class GithubStatsValidatorTest < ActiveSupport::TestCase
         model,
         :github_url,
         url,
-        github_source=GithubStub.new)
+        github_source=GithubStub::GithubStub.new)
     model
   end
 

@@ -6,8 +6,10 @@ module GithubStats
     
     module ClassMethods
       def has_github_repo options = {}
+        cattr_accessor :github_source
         cattr_accessor :github_url_field
         self.github_url_field = (options[:field_name] || :github_url).to_s
+        self.github_source = (options[:source] || Github)
 
         include GithubStats::GithubRepository::LocalInstanceMethods
       end
@@ -31,7 +33,7 @@ module GithubStats
       end
 
       def repo data
-        Github.repos(user: data[:username], repo: data[:repo])
+        self.class.github_source.repos(user: data[:username], repo: data[:repo])
       end
     end
   end
