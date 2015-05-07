@@ -1,38 +1,42 @@
-#dummy stub for Github source
+# dummy stub for Github source
 module GithubStub
+  # Class GithubStub is a safe replacement for Github module from
+  # https://github.com/peter-murach/github
   class GithubStub
     def repos(*opts)
       repo = opts[0]
-      raise Github::Error::NotFound.new({}) unless repo[:user] == "puradawid" and repo[:repo] == "github_stats"
+      unless repo[:user] == 'puradawid' && repo[:repo] == 'github_stats'
+        fail Github::Error::NotFound.new({}), 'Error'
+      end
       self
     end
 
-    def commits
-      self
-    end
-    
-    def list
+    def commits(*)
       self
     end
 
-    def author
+    def list(*)
       self
     end
 
-    def [] index
+    def author(*)
       self
     end
 
-    def commit
+    def [](*)
       self
     end
 
-    def date
+    def commit(*)
+      self
+    end
+
+    def date(*)
       Date.new.to_s
     end
 
-    def all
-      self 
+    def all(*)
+      self
     end
   end
 end
