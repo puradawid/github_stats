@@ -1,6 +1,6 @@
-source 'https://rubygems.org'
+source "https://rubygems.org"
 
-# Declare your gem's dependencies in github_stats.gemspec.
+# Declare your gem"s dependencies in github_stats.gemspec.
 # Bundler will treat runtime dependencies like base dependencies, and
 # development dependencies will be added by default to the :development group.
 gemspec
@@ -11,15 +11,15 @@ gemspec
 # your gem to rubygems.org.
 
 # To use a debugger
-# gem 'byebug', group: [:development, :test]
+# gem "byebug", group: [:development, :test]
 
 group :development do
-  gem 'byebug'
-  gem 'mocha'
-  gem 'guard'
-  gem 'guard-minitest'
+  gem "byebug"
+  gem "mocha"
+  gem "guard"
+  gem "guard-minitest"
 end
 
 group :test do
-  gem 'rake'
+  gem "rake"
 end

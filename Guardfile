@@ -14,18 +14,18 @@
 ##  $ while bundle exec guard; do echo "Restarting Guard..."; done
 ##
 ## Note: if you are using the `directories` clause above and you are not
-## watching the project directory ('.'), then you will want to move
+## watching the project directory ("."), then you will want to move
 ## the Guardfile to a watched dir and symlink it back, e.g.
 #
 #  $ mkdir config
 #  $ mv Guardfile config/
 #  $ ln -s config/Guardfile .
 #
-# and, you'll have to watch "config/Guardfile" instead of "Guardfile"
+# and, you"ll have to watch "config/Guardfile" instead of "Guardfile"
 
 guard :minitest do
   watch(%r{^test/(.*)\/?test_(.*)\.rb$})
   # watch(%r{^lib/(.*/)?([^/]+)\.rb$})     { |m| "test/#{m[1]}test_#{m[2]}.rb" }
-  watch(%r{^lib/(.*/)?([^/]+)\.rb$})     { 'test' }
-  watch(/^test\/test_helper\.rb$/)      { 'test' }
+  watch(%r{^lib/(.*/)?([^/]+)\.rb$})     { "test" }
+  watch(/^test\/test_helper\.rb$/)      { "test" }
 end

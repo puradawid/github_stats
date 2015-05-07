@@ -3,9 +3,9 @@ module GithubStats
     def self.included(base)
       base.extend(ClassMethods)
     end
-    
+
     module ClassMethods
-      def has_github_repo options = {}
+      def acts_as_github_repo(options = {})
         cattr_accessor :github_source
         cattr_accessor :github_url_field
         self.github_url_field = (options[:field_name] || :github_url).to_s
@@ -16,14 +16,14 @@ module GithubStats
     end
 
     module LocalInstanceMethods
-      
       def last_commit_date
-	return "" if empty?
-	commits = repo(Parser.parse(github_url_address)).commits 
+        return "" if empty?
+        commits = repo(Parser.parse(github_url_address)).commits
         commits.list[0].commit.author.date
       end
 
-      private 
+      private
+
       def github_url_address
         send(self.class.github_url_field)
       end
@@ -32,7 +32,7 @@ module GithubStats
         github_url_address.empty?
       end
 
-      def repo data
+      def repo(data)
         self.class.github_source.repos(user: data[:username], repo: data[:repo])
       end
     end

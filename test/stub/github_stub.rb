@@ -5,8 +5,8 @@ module GithubStub
   class GithubStub
     def repos(*opts)
       repo = opts[0]
-      unless repo[:user] == 'puradawid' && repo[:repo] == 'github_stats'
-        fail Github::Error::NotFound.new({}), 'Error'
+      unless repo[:user] == "puradawid" && repo[:repo] == "github_stats"
+        fail Github::Error::NotFound.new({}), "Error"
       end
       self
     end
