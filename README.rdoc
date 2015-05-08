@@ -1,6 +1,16 @@
 = GithubStats
 Generate stats from GitHub model.
 
+== Installation
+*WARNING:* This is not versioned or pushed into rubygems.org, so
+attach in your <tt>Gemfile</tt>:
+
+  # Gemfile
+  gem 'github_stats', git: 'https://github.com/puradawid/github_stats.git'
+
+*NOTE:* <tt>master</tt> branch will be always *backward compatibile*,
+don't worry about stability.
+
 == Usage
   class GithubUrlModel < ActiveRecord::Base
     # declare a field contains GitHub URL
