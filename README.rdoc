@@ -1,3 +1,30 @@
 = GithubStats
+Generate stats from GitHub model.
 
+== Usage
+  class GithubUrlModel < ActiveRecord::Base
+    # declare a field contains GitHub URL
+    attr_accessor :github_repo 
+    # modify model class by pointing out Github URL field
+    acts_as_github_repo field_name: :github_repo
+    # set validation for field
+    validates :repo_github, github_projects_url: { presence: false }
+  end
+
+Otherwise it can be a regular class:
+  class GithubRepository
+    attr_accessor :github_repo
+    acts_as_github_repo field_name: :github_repo
+  end
+
+It will add ability to *hold* GitHub URL without validation.
+
+=== Feature
+  github_repolistory.last_commit #=> "2012-01-01 12:00"
+
+== Contribution
+Pull-request policy or mail me puradawid@gmail.com for being a contributor.
+
+== License
 This project rocks and uses MIT-LICENSE.
+
